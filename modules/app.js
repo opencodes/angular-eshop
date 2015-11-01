@@ -1,5 +1,4 @@
 (function(){                                                                     
-
     //Angular module
 	angular.module("eShop", ['ngRoute']);  
 
@@ -11,9 +10,7 @@
 			.when('/category', 	
 				{ templateUrl : 'views/category.html', 			controller : 'CategoryController' })
 			.when('/category/:catid', 	
-				{ templateUrl : 'views/category.html', 			controller : 'CategoryController' })
-			.when('/product', 	
-				{ templateUrl : 'views/product-details.html', 	controller : 'ProductController' })
+				{ templateUrl : 'views/category.html', 			controller : 'CategoryController' })			
 			.when('/product/:productId', 	
 				{ templateUrl : 'views/product-details.html', 	controller : 'ProductController' })
 			.when('/cart', 		
@@ -44,19 +41,31 @@
 			$rootScope.eshop = {};
 			webService.loadJson().then(function(data){
 				$rootScope.eshop = data;
-			})
+
+			});
+		}
+		$scope.addToWishList = function (id){
+			console.log('Id : ' + id  );
 		}
 
 		
+
 	}])
-	angular.module('eShop').controller('ProductController',['$scope','webService','$rootScope', function($scope, webService, $rootScope) {
+	angular.module('eShop').controller('ProductController',['$scope','webService','$rootScope','$routeParams', function($scope, webService, $rootScope, $routeParams) {
+		
+		var getProduct = function() {	
+			var product = _.where($rootScope.eshop.product, {id: parseInt($routeParams.productId)});
+			$scope.product = product[0];
+		}
 		if (!$rootScope.eshop) {
 			$rootScope.eshop = {};
 			webService.loadJson().then(function(data){
 				$rootScope.eshop = data;
+				getProduct();
 			})
-		};
-		
+		}else{
+			getProduct();
+		}
 		
 	}])
 	angular.module('eShop').controller('CartController', ['$scope','webService','$rootScope', function($scope, webService, $rootScope) {
@@ -88,8 +97,11 @@
 			restrict : 'E',
 			templateUrl : "views/product-tile.html",
 			scope : {
-				productinfo : '=product'
+				productinfo : '=product',
+				category : '@',
+				addToWishList: '&'
 			}
+
 		}
 	});
 	angular.module('eShop').service('webService', ['$http','$q', function($http, $q) { 

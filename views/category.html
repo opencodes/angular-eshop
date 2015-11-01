@@ -135,7 +135,7 @@
 					<div class="features_items"><!--features_items-->
 						<h2 class="title text-center">Features Items</h2>
 						<div class="col-sm-4" ng-repeat="item in eshop.product">
-							<product-tile data-product="item"/>
+							<product-tile data-product="item" data-category="{{eshop.category[item.category].name}}" add-to-wish-list="addToWishList(id)"  />
 						</div>
 						
 						
