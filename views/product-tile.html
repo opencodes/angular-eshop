@@ -1,18 +1,24 @@
-<div class="product-image-wrapper">
-	<div class="single-products">
-		<div class="productinfo text-center ">
-			<img src="{{productinfo.image}}" alt="" />
-			<h2>{{productinfo.price}}</h2>
-			<p>{{productinfo.name}} </p>
-			<p>Cat: {{category}}</p>
-			<a href="#/product/{{productinfo.id}}" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-		</div>
-		
-	</div>
-	<div class="choose">
-		<ul class="nav nav-pills nav-justified">
-			<li><a href="" data-ng-click="addToWishList({id:productinfo.id})"><i class="fa fa-plus-square" ></i>Add to wishlist</a></li>
-			<li><a href=""><i class="fa fa-plus-square"></i>Add to compare</a></li>
-		</ul>
-	</div>
+<div class="thumbnail">
+    <img src="{{productinfo.image}}" alt="">
+    <div class="caption">
+        
+        <h4><a href="#/product/{{productinfo.id}}">{{productinfo.name}}</a>
+        </h4>
+        <h4 class="pull-left">{{productinfo.price}} / {{productinfo.category}}</h4>
+        
+    </div>
+    <div class="ratings">
+        <p class="pull-right">15 reviews</p>
+        <p>
+            <span class="glyphicon glyphicon-star"></span>
+            <span class="glyphicon glyphicon-star"></span>
+            <span class="glyphicon glyphicon-star"></span>
+            <span class="glyphicon glyphicon-star"></span>
+            <span class="glyphicon glyphicon-star"></span>
+        </p>
+    </div>
+    <div class="action">
+        <button type="button" class="btn btn-primary add-to-cart">Add to Cart</button>
+        <button type="button" class="btn btn-default add-to-wishlist" data-ng-click="addToWishList({id:productinfo.id})">Add to wishlist</button>
+    </div>
 </div>

@@ -1,11 +1,10 @@
 (function(){                                                                     
     //Angular module
-	angular.module("eShop", ['ngRoute']);  
+	var app =  angular.module("eShop", ['ngRoute']);  
 	
 	app.run(['$rootScope', '$location', function($rootScope, $location) {
 	  $rootScope.user = "";
 	  $rootScope.referedUrl = '';
-	  $rootScope.settings = settings;
 	  //Observe route change event and hook for login
 	  $rootScope.$on('$routeChangeStart', function (ev, next, curr) {
 		    if (next.$$route) {
@@ -16,12 +15,10 @@
 			  
 		      if (auth && !user) { 
 		    	  console.log(user);
-		    	  $rootScope.settings.layout.header = false;
-		    	  $rootScope.settings.layout.footer = false;
+		    	  
 		    	  $location.path('/login');
 		      }else{
-		    	  $rootScope.settings.layout.header = true;
-		    	  $rootScope.settings.layout.footer = true;
+		    	  
 		    	  console.log(user);
 		      }
 		      
@@ -29,7 +26,7 @@
 	  });
 	}]);
 	//Angular Routes
-	angular.module('eShop').config(['$routeProvider', function($routeProvider) {
+	app.config(['$routeProvider', function($routeProvider) {
 		$routeProvider
 			.when('/', 			
 				{ templateUrl : 'views/home.html', 				controller : 'HomePageController' , requireLogin : false})
@@ -56,7 +53,7 @@
 	}]);
 	
 	//Angular Controllers
-	angular.module('eShop').controller('HomePageController', ['$scope','webService','$rootScope', function($scope, webService, $rootScope) {
+	app.controller('HomePageController', ['$scope','webService','$rootScope', function($scope, webService, $rootScope) {
 		if (!$rootScope.eshop) {
 			$rootScope.eshop = {};
 			webService.loadJson().then(function(data){
@@ -64,7 +61,7 @@
 			})
 		};		
 	}])
-	angular.module('eShop').controller('CategoryController', ['$scope','webService','$rootScope','$routeParams', function($scope, webService, $rootScope, $routeParams) {
+	app.controller('CategoryController', ['$scope','webService','$rootScope','$routeParams', function($scope, webService, $rootScope, $routeParams) {
 		if (!$rootScope.eshop) {
 			$rootScope.eshop = {};
 			webService.loadJson().then(function(data){
@@ -79,7 +76,7 @@
 		
 
 	}])
-	angular.module('eShop').controller('ProductController',['$scope','webService','$rootScope','$routeParams', function($scope, webService, $rootScope, $routeParams) {
+	app.controller('ProductController',['$scope','webService','$rootScope','$routeParams', function($scope, webService, $rootScope, $routeParams) {
 		
 		var getProduct = function() {	
 			var product = _.where($rootScope.eshop.product, {id: parseInt($routeParams.productId)});
@@ -96,7 +93,7 @@
 		}
 		
 	}])
-	angular.module('eShop').controller('CartController', ['$scope','webService','$rootScope', function($scope, webService, $rootScope) {
+	app.controller('CartController', ['$scope','webService','$rootScope', function($scope, webService, $rootScope) {
 		if (!$rootScope.eshop) {
 			$rootScope.eshop = {};
 			webService.loadJson().then(function(data){
@@ -105,7 +102,7 @@
 		};
 		
 	}])
-	angular.module('eShop').controller('CheckoutController', ['$scope','webService','$rootScope', function($scope, webService, $rootScope) {
+	app.controller('CheckoutController', ['$scope','webService','$rootScope', function($scope, webService, $rootScope) {
 		if (!$rootScope.eshop) {
 			$rootScope.eshop = {};
 			webService.loadJson().then(function(data){
@@ -114,7 +111,7 @@
 		};
 		
 	}])
-	angular.module('eShop').controller('LoginController', ['$scope','$rootScope','$location', function($scope, $rootScope, $location){
+	app.controller('LoginController', ['$scope','$rootScope','$location', function($scope, $rootScope, $location){
 		$scope.submitLogin = function(user){
 			$rootScope.user = user;
 			$location.path($rootScope.referedUrl);
@@ -122,21 +119,21 @@
 		$rootScope.title = "Login Page";
 		
 	}])
-	angular.module('eShop').controller('LogoutController', ['$scope','$rootScope','$location', function($scope, $rootScope, $location){
+	app.controller('LogoutController', ['$scope','$rootScope','$location', function($scope, $rootScope, $location){
 		$rootScope.user = '';
 		$location.path('/login');
 	}]);
-	angular.module('eShop').controller('MyAccountController', ['$scope','webService','$rootScope', function($scope, webService, $rootScope) {
+	app.controller('MyAccountController', ['$scope','webService','$rootScope', function($scope, webService, $rootScope) {
 		
 		
 	}])
 	
-	angular.module('eShop').controller('404Controller', ['$scope', function($scope) {
+	app.controller('404Controller', ['$scope', function($scope) {
 		
 	}]);
 
 	//Directive
-	angular.module('eShop').directive('productTile',  function() {
+	app.directive('productTile',  function() {
 		return {
 			restrict : 'E',
 			templateUrl : "views/product-tile.html",
@@ -148,21 +145,38 @@
 
 		}
 	});
-	angular.module('eShop').directive('commanHeader', [function(){
+	app.directive('commanHeader', [function(){
 		return {
 			restrict : "EA",
 			templateUrl : "views/header.html"
 		};
 		
 	}]);
-	angular.module('eShop').directive('commanFooter', [function(){
+	app.directive('commanFooter', [function(){
 		return {
 			restrict : "EA",
 			templateUrl : "views/footer.html"
 		};
 		
 	}]);
-	angular.module('eShop').service('webService', ['$http','$q', function($http, $q) { 
+	app.filter('filterByCategory', function () {
+
+		return function(input, cat){
+		    var out = [];
+		    angular.forEach(input, function(itemm){		    
+		      if (cat) {
+		      	if(itemm.category == cat){
+			        out.push(itemm)
+			     }
+		      }else{
+		      	    out.push(itemm);
+		      }
+		      
+		    })
+		    return out;
+		}
+	})
+	app.service('webService', ['$http','$q', function($http, $q) { 
 
 		// I transform the error response, unwrapping the application dta from
                 // the API response payload.
