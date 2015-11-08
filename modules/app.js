@@ -70,7 +70,7 @@
 			});
 		}
 		$scope.addToWishList = function (id){
-			console.log('Id : ' + id  );
+			alert('Id : ' + id  );
 		}
 
 		
@@ -139,7 +139,7 @@
 			templateUrl : "views/product-tile.html",
 			scope : {
 				productinfo : '=product',
-				category : '@',
+				cat : '@cat',
 				addToWishList: '&'
 			}
 
