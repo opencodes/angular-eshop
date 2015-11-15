@@ -109,6 +109,13 @@
 				$rootScope.eshop = data;
 			})
 		};
+
+		$scope.submitCheckout  = function (isValid) {
+			// check to make sure the form is completely valid
+		    if (isValid) {
+		      alert('our form is amazing');
+		    }
+		}
 		
 	}])
 	app.controller('LoginController', ['$scope','$rootScope','$location', function($scope, $rootScope, $location){
