@@ -139,6 +139,7 @@
 
 			});
 		}
+		$scope.passToDirective = "I will be available in directive link."
 		$scope.addToWishList = function(id) {
 			alert('Id : ' + id);
 		}
@@ -226,6 +227,7 @@
 				element.addClass("product-item");
 
 				return function(scope, element, attributes) {
+					console.log(scope.productinfo.id)
 					console.log( "Adding .link class in link phase." );
 					element.addClass("link");
 				}
