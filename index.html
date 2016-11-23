@@ -81,11 +81,19 @@
                     <a href="#/category/women" class="list-group-item">Women</a>
                     <a href="#/category/kids" class="list-group-item">Kids</a>
                 </div>
+
+                <input type="text" ng-model="search">
+                <button type="submit">Filter</button>
+                <ul class="list-group">
+                <li ng-animate="animate" class="item list-group-item" ng-repeat="color in colors | filter:search" >
+                <span style="color:{{color.code}}">{{color.color}}</span>
+                </li> 
+                </ul>
             </div>
 
             <div class="col-md-9">
 
-                <ng-view></ng-view>
+                <ng-view class="view-slide-in"></ng-view>
 
             </div>
 
@@ -118,6 +126,7 @@
     <!-- Angular JS -->
     <script src="bower_components/angular/angular.min.js"></script>
     <script src="bower_components/angular-route/angular-route.min.js"></script>
+    <script src="bower_components/angular-animate/angular-animate.min.js"></script>
     <script src="bower_components/underscore/underscore-min.js"></script>
     <!-- Aplication Modules-->
     <script type="text/javascript" src="modules/app.js"></script>
